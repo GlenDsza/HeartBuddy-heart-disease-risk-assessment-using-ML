@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { OTPModal } from "../components";
 
 const SignupPage = () => {
-  const [name, setName] = useState(null);
-  const [mobile, setMobile] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [name, setName] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
+  const [isShow, setIsShow] = useState(false);
+  const toggleModal = () => {
+    return setIsShow(!isShow);
+  };
+
   return (
     <div
       style={{
@@ -68,6 +74,7 @@ const SignupPage = () => {
 
               <button
                 className="btn btn-info btn-block shadow-2 my-3 w-75"
+                onClick={toggleModal}
                 style={{
                   background: "rgba(13,202,240,0.38699229691876746)",
                 }}
@@ -84,6 +91,7 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
+      <OTPModal isShow={isShow} toggleModal={toggleModal} />
     </div>
   );
 };
