@@ -12,21 +12,12 @@ const SignupPage = () => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "80vh",
-        minWidth: "100%",
-        position: "relative",
-        alignContent: "center",
-      }}
-    >
-      <div
-        className={`font-poppins font-bold cursor-pointer text-[26px] text-gradient ml-1 text-center my-3`}
-      >
+    <div className="position-relative align-content-center min-h-[80vh] min-w-[100vw]">
+      <div className="font-poppins font-bold cursor-pointer text-[26px] text-gradient ml-1 text-center my-3">
         Create your Account
       </div>
       <div className="d-flex align-items-center m-0 p-0">
-        <div id="loginContainer" className="card my-auto mx-auto">
+        <div className="glassContainer card my-auto mx-auto w-[500px] max-w-[80vw] min-h-[370px]">
           <div className="card-body text-center my-auto mt-0 mt-sm-4">
             <form>
               <div className="my-3 credContainer row">
@@ -91,7 +82,7 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
-      <OTPModal isShow={isShow} toggleModal={toggleModal} />
+      <OTPModal isShow={isShow} toggleModal={toggleModal} mobile={mobile} />
     </div>
   );
 };

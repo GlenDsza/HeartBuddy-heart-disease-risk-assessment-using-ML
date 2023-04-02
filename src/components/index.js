@@ -6,6 +6,8 @@ import TryThese from "./TryThese";
 import Footer from "./Footer";
 import PublicRoute from "./PublicRoute";
 import OTPModal from "./OTPModal";
+import ProtectedRoute from "./ProtectedRoute";
+import FieldContainer from "./FieldContainer";
 
 export {
   Navbar,
@@ -15,5 +17,7 @@ export {
   TryThese,
   Footer,
   PublicRoute,
+  ProtectedRoute,
   OTPModal,
+  FieldContainer,
 };

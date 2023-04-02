@@ -1,17 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Navbar, PublicRoute, Footer } from "./components";
-import { LandingPage, LoginPage, SignupPage } from "./pages";
+import { Navbar, PublicRoute, Footer, ProtectedRoute } from "./components";
+import { HomePage, LandingPage, LoginPage, SignupPage } from "./pages";
+
 import styles from "./style";
 import "bootstrap/dist/css/bootstrap.css";
 
 const App = () => {
   return (
     <div className="bg-darkBlue w-full overfow-hidden">
-      <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-        <Navbar />
-      </div>
-      <hr />
       <Router>
+        <div className={`${styles.paddingX} ${styles.flexCenter}`}>
+          <Navbar />
+        </div>
+        <hr />
         <Routes>
           <Route
             path="/"
@@ -36,6 +37,14 @@ const App = () => {
               <PublicRoute>
                 <SignupPage />
               </PublicRoute>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomePage />
+              </ProtectedRoute>
             }
           />
         </Routes>

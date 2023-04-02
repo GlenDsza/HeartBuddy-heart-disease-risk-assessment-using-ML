@@ -1,7 +1,7 @@
-export const navLinks = [
+export const publicNavLinks = [
   {
-    id: "home",
-    title: "Home",
+    id: "about",
+    title: "About",
   },
   {
     id: "features",
@@ -14,5 +14,20 @@ export const navLinks = [
   {
     id: "signup",
     title: "Signup",
+  },
+];
+
+export const protectedNavLinks = [
+  {
+    id: "home",
+    title: "Home",
+  },
+  {
+    id: "profile",
+    title: "Profile",
+  },
+  {
+    id: "logout",
+    title: "Logout",
   },
 ];
