@@ -15,9 +15,10 @@ import {
   setThal,
   setCa,
 } from "../redux/infoSlice";
-
+import axios from "axios";
 import "../stylesheets/HomePage.css";
-
+import toast,{Toaster} from "react-hot-toast";
+import { backendUrl } from "../definitions";
 const HomePage = () => {
   const {
     sex,
@@ -35,9 +36,51 @@ const HomePage = () => {
     ca,
   } = useSelector((store) => store.info);
   const dispatch = useDispatch();
+  const predict = async () => {
+    if(!sex || !age || !cp || !trestbps || !fbs || !chol || !restecg || !thalach || !exang || !oldpeak || !slope || !thal || !ca)
+    {
+      toast.error("Please enter all fields");
+    }
+    
+    const formData = {
+      age: age,
+      sex: sex,
+      cp: cp,
+      trestbps: trestbps,
+      chol: chol,
+      fbs: fbs,
+      restecg: restecg,
+      thalach: thalach,
+      exang: exang,
+      oldpeak: oldpeak,
+      slope: slope,
+      ca: ca,
+      thal: thal
+    }
 
+    try {
+      let res = await axios.post(
+        `${backendUrl}/predict`,
+        formData
+      );
+      console.log(res.data);
+
+      if (res.data?.SUCCESS) {
+        toast(`Your risk of developing a heart disease is ${res.data.PERCENTAGE*100}%`,{icon:'⚠️',duration:4000});
+      }
+      else
+      {
+        toast.error("Some Error Occurred!");
+      }
+
+
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
   return (
     <div id="homePage" className="m-0 p-0 h-[100vh] w-[100vw]">
+      <Toaster/>
       <div
         className={`font-poppins font-bold cursor-pointer text-[20px] text-gradient ml-1 text-center mt-1 mb-3`}
       >
@@ -204,6 +247,8 @@ const HomePage = () => {
               style={{
                 background: "rgba(13,202,240,0.38699229691876746)",
               }}
+              type="button"
+              onClick={()=>predict()}
             >
               Compute
             </button>

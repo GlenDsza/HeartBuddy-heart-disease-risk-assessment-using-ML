@@ -1,1 +1,1 @@
-# HeartBuddy-heart-disease-prediction
+# HeartBuddy-heart-disease-Risk Assessment

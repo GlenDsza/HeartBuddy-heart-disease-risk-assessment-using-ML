@@ -1,11 +1,51 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import toast,{Toaster} from "react-hot-toast";
+import axios from "axios";
+import { backendUrl } from "../definitions";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const login = async () => {
+
+    if (!mobile || !password) {
+      console.log("error");
+      return;
+    }
+
+    const formData = {
+      "mobile": mobile,
+      "password": password,
+    }
+
+    try {
+      let res = await axios.post(
+        `${backendUrl}/auth/login`,
+        formData
+      );
+
+      if (res.data?.mobile) {
+        toast.success("Logged In");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      }
+      else
+      {
+        toast.error("Invalid Credentials!");
+      }
+
+
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
   return (
     <div className="position-relative align-content-center min-h-[80vh] min-w-[100vw]">
+      <Toaster/>
       <div className="font-poppins font-bold cursor-pointer text-[26px] text-gradient ml-1 text-center my-3">
         Login to your Account
       </div>
@@ -39,6 +79,8 @@ const LoginPage = () => {
                 style={{
                   background: "rgba(13,202,240,0.38699229691876746)",
                 }}
+                type="button"
+                onClick={()=>login()}
               >
                 Log in
               </button>

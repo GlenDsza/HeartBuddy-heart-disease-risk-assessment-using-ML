@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "../stylesheets/OTPModal.css";
-
-const OTPModal = ({ isShow, toggleModal, mobile }) => {
+import axios from "axios";
+import { backendUrl } from "../definitions";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+const OTPModal = ({ isShow, toggleModal, mobile, password }) => {
   const [otp1, setOtp1] = useState("");
   const [otp2, setOtp2] = useState("");
   const [otp3, setOtp3] = useState("");
@@ -10,6 +13,7 @@ const OTPModal = ({ isShow, toggleModal, mobile }) => {
   const [otp5, setOtp5] = useState("");
   const [otp6, setOtp6] = useState("");
   const formRef = useRef(null);
+  const navigate = useNavigate();
 
   const inputfocus = (elmnt) => {
     if (elmnt.key === "Delete" || elmnt.key === "Backspace") {
@@ -25,19 +29,40 @@ const OTPModal = ({ isShow, toggleModal, mobile }) => {
     }
   };
 
-  const validate = () => {
-    if (
-      otp1.length > 0 &&
-      otp2.length > 0 &&
-      otp3.length > 0 &&
-      otp4.length > 0 &&
-      otp5.length > 0 &&
-      otp6.length > 0
-    ) {
-      const otp = otp1.concat(otp2, otp3, otp4, otp5, otp6);
-      console.log(otp);
+  const validate = async () => {
+
+    if (!otp1 || !otp2 || !otp3 || !otp4 || !otp5 || !otp6) {
+      toast.error("Please Enter OTP");
+      return;
     }
-  };
+    let otp = otp1+otp2+otp3+otp4+otp5+otp6;
+    const formData = {
+      "mobile": mobile,
+      "password": password,
+      "otp": otp
+    }
+
+
+    try {
+      let res = await axios.post(
+        `${backendUrl}/auth/checkotp`,
+        formData
+      );
+      if(res.data?.mobile)
+      {
+        toast.success("Account Created");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      }
+      else
+      {
+        toast.error("Invalid OTP");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
 
   return (
     <>
@@ -159,7 +184,7 @@ const OTPModal = ({ isShow, toggleModal, mobile }) => {
                 </div>{" "}
                 <div className="mt-4">
                   {" "}
-                  <button className="btn btn-info px-4" onClick={validate}>
+                  <button className="btn btn-info px-4" onClick={()=>validate()}>
                     Validate
                   </button>{" "}
                 </div>{" "}
