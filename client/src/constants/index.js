@@ -23,6 +23,14 @@ export const protectedNavLinks = [
     title: "Home",
   },
   {
+    id: "recommendations",
+    title: "Recommendations",
+  },
+  {
+    id: "map",
+    title: "Nearby Doctors",
+  },
+  {
     id: "profile",
     title: "Profile",
   },
@@ -31,3 +39,5 @@ export const protectedNavLinks = [
     title: "Logout",
   },
 ];
+
+export const backendUrl = "http://127.0.0.1:8000";

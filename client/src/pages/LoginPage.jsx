@@ -1,51 +1,46 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import toast,{Toaster} from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
-import { backendUrl } from "../definitions";
 import { useNavigate } from "react-router-dom";
-const LoginPage = () => {
+import { backendUrl } from "../constants";
+
+const LoginPage = ({ setUser }) => {
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const login = async () => {
-
     if (!mobile || !password) {
       console.log("error");
       return;
     }
 
     const formData = {
-      "mobile": mobile,
-      "password": password,
-    }
+      mobile: mobile,
+      password: password,
+    };
 
     try {
-      let res = await axios.post(
-        `${backendUrl}/auth/login`,
-        formData
-      );
-
+      let res = await axios.post(`${backendUrl}/auth/login`, formData);
       if (res.data?.mobile) {
         toast.success("Logged In");
+        localStorage.setItem("name", res.data.fullname);
+        localStorage.setItem("mobile", res.data.mobile);
         setTimeout(() => {
           navigate("/home");
+          setUser(true);
         }, 1000);
-      }
-      else
-      {
+      } else {
         toast.error("Invalid Credentials!");
       }
-
-
     } catch (ex) {
       console.log(ex);
     }
-  }
+  };
   return (
     <div className="position-relative align-content-center min-h-[80vh] min-w-[100vw]">
-      <Toaster/>
+      <Toaster />
       <div className="font-poppins font-bold cursor-pointer text-[26px] text-gradient ml-1 text-center my-3">
         Login to your Account
       </div>
@@ -75,12 +70,12 @@ const LoginPage = () => {
               </div>
 
               <button
-                className="btn btn-info btn-block shadow-2 my-3 w-75"
+                className="btn btn-info btn-block shadow-2 my-3 w-75 text-white"
                 style={{
                   background: "rgba(13,202,240,0.38699229691876746)",
                 }}
                 type="button"
-                onClick={()=>login()}
+                onClick={() => login()}
               >
                 Log in
               </button>

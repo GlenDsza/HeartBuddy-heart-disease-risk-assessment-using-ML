@@ -1,16 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, PublicRoute, Footer, ProtectedRoute } from "./components";
-import { HomePage, LandingPage, LoginPage, SignupPage } from "./pages";
+import { HomePage, LandingPage, LoginPage, MapPage, SignupPage } from "./pages";
 
 import styles from "./style";
 import "bootstrap/dist/css/bootstrap.css";
+import { useState } from "react";
 
 const App = () => {
+  const [user, setUser] = useState(false);
   return (
     <div className="bg-darkBlue w-full overfow-hidden">
       <Router>
         <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-          <Navbar />
+          <Navbar user={user} setUser={setUser} />
         </div>
         <hr />
         <Routes>
@@ -27,7 +29,7 @@ const App = () => {
             path="/login"
             element={
               <PublicRoute>
-                <LoginPage />
+                <LoginPage setUser={setUser} />
               </PublicRoute>
             }
           />
@@ -44,6 +46,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/map"
+            element={
+              <ProtectedRoute>
+                <MapPage />
               </ProtectedRoute>
             }
           />

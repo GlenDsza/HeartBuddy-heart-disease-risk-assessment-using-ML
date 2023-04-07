@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
-  return <>{children}</>;
+  const navigate = useNavigate();
+  let user = localStorage.getItem("mobile") ? true : false;
+  useEffect(() => {
+    if (!user) navigate("/");
+  }, []);
+  return user && <> {children}</>;
 };
 
 export default ProtectedRoute;

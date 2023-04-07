@@ -8,6 +8,7 @@ import PublicRoute from "./PublicRoute";
 import OTPModal from "./OTPModal";
 import ProtectedRoute from "./ProtectedRoute";
 import FieldContainer from "./FieldContainer";
+import PredictionModal from "./PredictionModal";
 
 export {
   Navbar,
@@ -19,5 +20,6 @@ export {
   PublicRoute,
   ProtectedRoute,
   OTPModal,
+  PredictionModal,
   FieldContainer,
 };

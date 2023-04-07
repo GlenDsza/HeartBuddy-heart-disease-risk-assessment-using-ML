@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { OTPModal } from "../components";
-import { backendUrl } from "../definitions";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
+import { backendUrl } from "../constants";
 
 const SignupPage = () => {
   const [name, setName] = useState("");
@@ -16,27 +16,21 @@ const SignupPage = () => {
     return setIsShow(!isShow);
   };
 
-
   const createUser = async () => {
-
-    if (!email || !password || !mobile || (password != password2)) {
+    if (!email || !password || !mobile || password != password2) {
       console.log("error");
       return;
     }
 
     const formData = {
-      "email": email,
-      "mobile": mobile,
-      "password": password,
-      "fullname": name
-    }
-
+      email: email,
+      mobile: mobile,
+      password: password,
+      fullname: name,
+    };
 
     try {
-      let res = await axios.post(
-        `${backendUrl}/auth/signup`,
-        formData
-      );
+      let res = await axios.post(`${backendUrl}/auth/signup`, formData);
 
       console.log(res);
       if (res.data.SUCCESS == "TRUE") {
@@ -47,20 +41,18 @@ const SignupPage = () => {
 
         // toast.success("Logged in");
       }
-
-
     } catch (ex) {
       console.log(ex);
     }
-  }
+  };
 
   return (
     <div className="position-relative align-content-center min-h-[80vh] min-w-[100vw]">
-      <Toaster/>
+      <Toaster />
       <div className="font-poppins font-bold cursor-pointer text-[26px] text-gradient ml-1 text-center my-3">
         Create your Account
       </div>
-      
+
       <div className="d-flex align-items-center m-0 p-0">
         <div className="glassContainer card my-auto mx-auto w-[500px] max-w-[80vw] min-h-[370px]">
           <div className="card-body text-center my-auto mt-0 mt-sm-4">
@@ -83,7 +75,6 @@ const SignupPage = () => {
                     placeholder="Mobile No."
                     value={mobile}
                     required={true}
-                    
                     onChange={(e) => setMobile(e.target.value)}
                   />
                 </div>
@@ -122,9 +113,11 @@ const SignupPage = () => {
               <button
                 className="btn btn-info btn-block shadow-2 my-3 w-75"
                 type="button"
-                onClick={(e)=>{createUser();}}
+                onClick={(e) => {
+                  createUser();
+                }}
                 style={{
-                  color: 'white',
+                  color: "white",
                   background: "rgba(13,202,240,0.38699229691876746)",
                 }}
               >
@@ -140,7 +133,12 @@ const SignupPage = () => {
           </div>
         </div>
       </div>
-      <OTPModal isShow={isShow} toggleModal={toggleModal} mobile={mobile} password={password} />
+      <OTPModal
+        isShow={isShow}
+        toggleModal={toggleModal}
+        mobile={mobile}
+        password={password}
+      />
     </div>
   );
 };
