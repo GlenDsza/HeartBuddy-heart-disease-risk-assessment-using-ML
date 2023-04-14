@@ -2,7 +2,7 @@
 
 # HeartBuddy: Heart Disease Risk Assessment
 
-<p style='text-align: justify;'>VendorLink is an Android mobile applictaion which acts as an aggregator platform and facilitates the relationship of customer & street vendors by eliminating problems faced by both parties.</p>
+<!-- <p style='text-align: justify;'>VendorLink is an Android mobile applictaion which acts as an aggregator platform and facilitates the relationship of customer & street vendors by eliminating problems faced by both parties.</p>
 <p style='text-align: justify;'>VendorLink mobile application is based on the concept of Hyperlocal-Ecommerce such that street vendors in close vicinity to customer are shown to the customer first. </p>
 
 ## Problem Definition✨
@@ -43,7 +43,7 @@ VendorLink application consists of a customer module and a Vendor Module.
 
 ### Customer Module:
 
-<table>    
+<table>
     <tr>
         <td><img src="Images/SS/c-1.png" width="180" height="360"></td>
         <td><img src="Images/SS/c-2.png" width="180" height="360"></td>
@@ -60,7 +60,7 @@ VendorLink application consists of a customer module and a Vendor Module.
 
 ### Vendor Module:
 
-<table>    
+<table>
     <tr>
         <td><img src="Images/SS/v-1.png" width="180" height="360"></td>
         <td><img src="Images/SS/v-2.jpeg" width="180" height="360"></td>
@@ -81,4 +81,4 @@ VendorLink application consists of a customer module and a Vendor Module.
 - Firebase
 - Google Maps API
 - Google Sign-in API
-- Facebook Sign-in API
+- Facebook Sign-in API -->
