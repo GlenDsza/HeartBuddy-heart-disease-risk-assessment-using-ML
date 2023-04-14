@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  let user = localStorage.getItem("mobile") ? true : false;
+  let user = sessionStorage.getItem("mobile") ? true : false;
   useEffect(() => {
     if (!user) navigate("/");
   }, []);

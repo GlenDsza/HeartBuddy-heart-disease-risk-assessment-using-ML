@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { OTPModal } from "../components";
 import axios from "axios";
 import { Toaster } from "react-hot-toast";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../utils";
 
 const SignupPage = () => {
   const [name, setName] = useState("");

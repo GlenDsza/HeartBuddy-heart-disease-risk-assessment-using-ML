@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../utils";
 
 const LoginPage = ({ setUser }) => {
   const [mobile, setMobile] = useState("");
@@ -25,8 +25,9 @@ const LoginPage = ({ setUser }) => {
       let res = await axios.post(`${backendUrl}/auth/login`, formData);
       if (res.data?.mobile) {
         toast.success("Logged In");
-        localStorage.setItem("name", res.data.fullname);
-        localStorage.setItem("mobile", res.data.mobile);
+
+        sessionStorage.setItem("name", res.data.fullname);
+        sessionStorage.setItem("mobile", res.data.mobile);
         setTimeout(() => {
           navigate("/home");
           setUser(true);

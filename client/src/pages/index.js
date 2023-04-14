@@ -1,7 +1,7 @@
 import HomePage from "./HomePage";
 import LandingPage from "./LandingPage";
 import LoginPage from "./LoginPage";
-import MapPage from "./MapPage";
+import NearByPage from "./NearByPage";
 import SignupPage from "./SignupPage";
 
-export { LandingPage, LoginPage, SignupPage, HomePage, MapPage };
+export { LandingPage, LoginPage, SignupPage, HomePage, NearByPage };

@@ -1,3 +1,19 @@
+export const loadBingMap = () => {
+  const existingScript = document.getElementById("bingMaps");
+  if (!existingScript) {
+    const script = document.createElement("script");
+    script.src =
+      "http://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=" +
+      import.meta.env.VITE_MAPS_API;
+    script.id = "bingMaps";
+    script.type = "text/javascript";
+    document.body.appendChild(script);
+    script.onload = () => {
+      console.log("Script loaded");
+    };
+  }
+};
+
 export const publicNavLinks = [
   {
     id: "about",

@@ -19,7 +19,7 @@ import {
   setThal,
   setCa,
 } from "../redux/infoSlice";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../utils";
 const HomePage = () => {
   const [isShow, setIsShow] = useState(false);
   const [percentage, setPercentage] = useState(0);
@@ -100,7 +100,7 @@ const HomePage = () => {
       <div
         className={`font-poppins font-bold cursor-pointer text-[20px] text-gradient ml-1 text-center mt-1 mb-3`}
       >
-        Enter your Details
+        Fill the Details
       </div>
       <div className="glassContainer card my-auto mx-auto w-[85vw]">
         <div className="card-body text-center my-auto mt-0 mt-sm-2">

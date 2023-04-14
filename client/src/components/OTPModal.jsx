@@ -5,7 +5,7 @@ import axios from "axios";
 
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { backendUrl } from "../constants";
+import { backendUrl } from "../utils";
 const OTPModal = ({ isShow, toggleModal, mobile, password }) => {
   const [otp1, setOtp1] = useState("");
   const [otp2, setOtp2] = useState("");

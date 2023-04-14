@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { close, logo, menu, profile } from "../assets";
-import { protectedNavLinks, publicNavLinks } from "../constants";
+import { protectedNavLinks, publicNavLinks } from "../utils";
 
 const Navbar = ({ user, setUser }) => {
   const [toggle, setToggle] = useState(false);
   const [profileToggle, setProfileToggle] = useState(false);
   const logout = () => {
-    localStorage.clear();
+    sessionStorage.clear();
     setProfileToggle(false);
     setUser(false);
   };
@@ -22,7 +22,7 @@ const Navbar = ({ user, setUser }) => {
       </Link>
 
       <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {localStorage.mobile
+        {sessionStorage.mobile
           ? protectedNavLinks.map((nav, index) =>
               nav.id !== "profile" && nav.id !== "logout" ? (
                 <li
@@ -88,7 +88,7 @@ const Navbar = ({ user, setUser }) => {
           } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
         >
           <ul className="list-none flex flex-col justify-end items-center flex-1">
-            {localStorage.mobile
+            {sessionStorage.mobile
               ? protectedNavLinks.map((nav, index) => (
                   <li
                     key={nav.id}
