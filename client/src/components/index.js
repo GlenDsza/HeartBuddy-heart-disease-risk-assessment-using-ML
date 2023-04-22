@@ -9,12 +9,12 @@ import OTPModal from "./OTPModal";
 import ProtectedRoute from "./ProtectedRoute";
 import FieldContainer from "./FieldContainer";
 import PredictionModal from "./PredictionModal";
-import Map from "./Map";
+import MapContainer from "./MapContainer";
 
 export {
   Navbar,
   Home,
-  Map,
+  MapContainer,
   GetStarted,
   Card,
   TryThese,

@@ -8,6 +8,7 @@ import menu from "./menu.svg";
 import close from "./close.svg";
 import arrowUp from "./arrow-up.svg";
 import profile from "./profile.svg";
+import search from "./search.svg";
 
 export {
   healthcare,
@@ -20,4 +21,5 @@ export {
   close,
   arrowUp,
   profile,
+  search,
 };
