@@ -1,295 +1,168 @@
-import { useSelector } from "react-redux";
-import { FieldContainer, PredictionModal } from "../components";
+import React, { useEffect, useState } from "react";
+import Graph from "../components/Graph";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
-import "../stylesheets/HomePage.css";
-import toast, { Toaster } from "react-hot-toast";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import {
-  setAge,
-  setSex,
-  setCp,
-  setTrestbps,
-  setFbs,
-  setChol,
-  setRestecg,
-  setThalach,
-  setExang,
-  setOldpeak,
-  setSlope,
-  setThal,
-  setCa,
-} from "../redux/infoSlice";
 import { backendUrl } from "../utils";
-const HomePage = () => {
-  const location = useLocation();
-  const [isShow, setIsShow] = useState(false);
-  const [percentage, setPercentage] = useState(0);
-  const toggleModal = () => {
-    return setIsShow(!isShow);
-  };
-  const {
-    sex,
-    age,
-    cp,
-    trestbps,
-    fbs,
-    chol,
-    restecg,
-    thalach,
-    exang,
-    oldpeak,
-    slope,
-    thal,
-    ca,
-  } = useSelector((store) => store.info);
-  const predict = async () => {
-    if (
-      !sex ||
-      !age ||
-      !cp ||
-      !trestbps ||
-      !fbs ||
-      !chol ||
-      !restecg ||
-      !thalach ||
-      !exang ||
-      !oldpeak ||
-      !slope ||
-      !thal ||
-      !ca
-    ) {
-      toast.error("Please enter all fields");
-      return;
-    }
 
-    //check if the mobile is present in session storage if not then toast error
-    if (sessionStorage.getItem("mobile") === null) {
-      toast.error("Please login first");
-      return;
-    }
+export default function HomePage() {
+  const [data, setData] = useState({});
 
+  const getData = async () => {
     const formData = {
-      age: age,
-      sex: sex,
-      cp: cp,
-      trestbps: trestbps,
-      chol: chol,
-      fbs: fbs,
-      restecg: restecg,
-      thalach: thalach,
-      exang: exang,
-      oldpeak: oldpeak,
-      slope: slope,
-      ca: ca,
-      thal: thal,
+      mobile: sessionStorage.getItem("mobile"),
     };
-
     try {
-      let res = await axios.post(
-        `${backendUrl}/predict?mobile=${sessionStorage.getItem("mobile")}`,
-        formData
-      );
-      console.log(res.data);
+      let res = await axios.post(`${backendUrl}/getlastrecord`, formData);
 
-      if (res.data?.SUCCESS) {
-        setPercentage(res.data.PERCENTAGE * 100);
-        setIsShow(!isShow);
-        toast(
-          `Your risk of developing a heart disease is ${
-            res.data.PERCENTAGE * 100
-          }%`,
-          { icon: "⚠️", duration: 4000 }
-        );
-      } else toast.error("Some Error Occurred!");
+      if (res.data && res.data?.RESULT) {
+        console.log(res.data);
+        setData(res.data.RESULT);
+      } else {
+        toast.error("Some Error Occurred!");
+      }
     } catch (ex) {
       console.log(ex);
     }
   };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const name = sessionStorage.getItem("name");
   return (
-    <div id="homePage" className="m-0 p-0 h-[100vh] w-[100vw]">
-      <Toaster />
-      <div
-        className={`font-poppins font-bold cursor-pointer text-[20px] text-gradient ml-1 text-center mt-1 mb-3`}
-      >
-        Fill the Details
-      </div>
-      <div className="glassContainer card my-auto mx-auto w-[85vw]">
-        <div className="card-body text-center my-auto mt-0 mt-sm-2">
-          <form>
-            <div className="mb-4 infoContainer row">
-              <FieldContainer
-                colSize="4"
-                type="input"
-                label="Age (in years)"
-                name="age"
-                val={age}
-                func={setAge}
-              />
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Sex"
-                name="sex"
-                val={sex}
-                func={setSex}
-                options={[
-                  { value: 1, label: "Male" },
-                  { value: 0, label: "Female" },
-                ]}
-              />
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Chest Pain Type"
-                name="cp"
-                val={cp}
-                func={setCp}
-                options={[
-                  { value: 0, label: "Typical Angina" },
-                  { value: 1, label: "Atypical Angina" },
-                  { value: 2, label: "Non-anginal pain" },
-                  { value: 3, label: "Asymptomatic pain" },
-                ]}
-              />
+    <div className="h-screen text-center">
+      <div className="flex flex-row justify-between items-stretch">
+        <div className="ml-10 w-[100%]">
+          <h1 className="text-4xl text-white font-bold text-left">
+            {name.charAt(0).toUpperCase() + name.substring(1)}
+          </h1>
+          <hr className="text-white w-[90%] mt-2" />
+
+          <div className="text-xl text-white font-bold mt-8 text-left">
+            Sex: {data?.sex == 1 ? "Male" : "Female"}
+          </div>
+
+          <div className="text-md text-white mt-2 text-left">
+            Your Last Report
+          </div>
+
+          <div className="grid grid-cols-2 mt-2 border-2 border-white rounded mr-5">
+            <div className="grid grid-cols-2 border-r align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left align-center">Age</div>
+              <div className="text-gray-400 text-left">
+                {data?.age ? data.age : ""}
+              </div>
             </div>
-            <div className="mb-4 infoContainer row">
-              <FieldContainer
-                colSize="4"
-                type="input"
-                label="Resting Blood Pressure (mm)"
-                name="trestbps"
-                val={trestbps}
-                func={setTrestbps}
-              />
-              <FieldContainer
-                colSize="8"
-                type="select"
-                label="Is your Fasting Blood Sugar > 120mg/dl ?"
-                name="fbs"
-                val={fbs}
-                func={setFbs}
-                options={[
-                  { value: 1, label: "True" },
-                  { value: 0, label: "False" },
-                ]}
-              />
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left ">Chest Pain Type</div>
+              <div className="text-gray-400 text-left">
+                {data?.cp ? data.cp : ""}
+              </div>
             </div>
-            <div className="mb-4 infoContainer row">
-              <FieldContainer
-                colSize="4"
-                type="input"
-                label="Serum Cholestrol (mg/dl)"
-                name="chol"
-                val={chol}
-                func={setChol}
-              />
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Resting Electrocardiographic Results"
-                name="restecg"
-                val={restecg}
-                func={setRestecg}
-                options={[
-                  { value: 0, label: "Normal" },
-                  { value: 1, label: "ST-T Wave Abnormality" },
-                ]}
-              />
-              <FieldContainer
-                colSize="4"
-                type="input"
-                label="Maximum Heartrate"
-                name="thalach"
-                val={thalach}
-                func={setThalach}
-              />
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-r border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left ">
+                Resting blood pressure
+              </div>
+              <div className="text-gray-400 text-left">
+                {data?.trestbps ? data.trestbps : ""}
+              </div>
             </div>
-            <div className="mb-4 infoContainer row">
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Does Exercise Induce Chest Pain?"
-                name="exang"
-                val={exang}
-                func={setExang}
-                options={[
-                  { value: 1, label: "Yes" },
-                  { value: 0, label: "No" },
-                ]}
-              />
-              <FieldContainer
-                colSize="4"
-                type="input"
-                label="ST Depression induced by exercise (mm)"
-                name="oldpeak"
-                val={oldpeak}
-                func={setOldpeak}
-              />
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Slope of Peak Exercise ST segment"
-                name="slope"
-                val={slope}
-                func={setSlope}
-                options={[
-                  { value: 0, label: "Upsloping" },
-                  { value: 1, label: "Flat" },
-                  { value: 2, label: "Downsloping" },
-                ]}
-              />
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Cholestoral</div>
+              <div className="text-gray-400 text-left">
+                {data?.chol ? data.chol : ""}
+              </div>
             </div>
-            <div className="mb-4 infoContainer row">
-              <FieldContainer
-                colSize="4"
-                type="select"
-                label="Defect"
-                name="thal"
-                val={thal}
-                func={setThal}
-                options={[
-                  { value: 1, label: "Normal" },
-                  { value: 2, label: "Fixed Defect" },
-                  { value: 3, label: "Reversible Defect" },
-                ]}
-              />
-              <FieldContainer
-                colSize="8"
-                type="select"
-                label="No. of major vessels (0-3) colored by Flourosopy"
-                name="ca"
-                val={ca}
-                func={setCa}
-                options={[
-                  { value: 0, label: "0" },
-                  { value: 1, label: "1" },
-                  { value: 2, label: "2" },
-                  { value: 3, label: "3" },
-                  { value: 4, label: "4" },
-                ]}
-              />
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-r border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Fasting blood sugar</div>
+              <div className="text-gray-400 text-left">
+                {data?.fbs ? data.fbs : ""}
+              </div>
             </div>
-            <button
-              className="btn btn-info btn-block text-white shadow-2 my-3 w-75"
-              style={{
-                background: "rgba(13,202,240,0.38699229691876746)",
-              }}
-              type="button"
-              onClick={() => predict()}
-            >
-              Compute
-            </button>
-          </form>
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Resting ECG</div>
+              <div className="text-gray-400 text-left">
+                {data?.restecg ? data.restecg : ""}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 align-items-center border-r border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Max. Heart rate</div>
+              <div className="text-gray-400 text-left">
+                {data?.thalach ? data.thalach : ""}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Exercise induced pain</div>
+              <div className="text-gray-400 text-left">
+                {data?.exang ? data.exang : ""}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 align-items-center border-r border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Slope</div>
+              <div className="text-gray-400 text-left">
+                {data?.slope ? data.slope : ""}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">CA</div>
+              <div className="text-gray-400 text-left">
+                {data?.ca ? data.ca : ""}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2 align-items-center border-r border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">Thalassemia</div>
+              <div className="text-gray-400 text-left">
+                {data?.thal ? data.thal : ""}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 align-items-center border-b-2 border-gray-500 p-2">
+              <div className="text-white text-left">ST Depression</div>
+              <div className="text-gray-400 text-left">
+                {data?.oldpeak ? data.oldpeak : ""}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mr-10 w-[100%] text-center">
+          <div className="mt-5">
+            <Graph />
+          </div>
         </div>
       </div>
-      <PredictionModal
-        isShow={isShow}
-        percentage={percentage}
-        toggleModal={toggleModal}
-      />
+      <div className="mt-5 mx-auto">
+        <NavLink to={"/assess"}>
+          <div className="box-border relative z-30 inline-flex items-center justify-center w-auto px-8 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-indigo-600 rounded-md cursor-pointer group ring-offset-2 ring-1 ring-indigo-300 ring-offset-indigo-200 hover:ring-offset-indigo-500 ease focus:outline-none">
+            <span className="absolute bottom-0 right-0 w-8 h-20 -mb-8 -mr-5 transition-all duration-300 ease-out transform rotate-45 translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+            <span className="absolute top-0 left-0 w-20 h-8 -mt-1 -ml-12 transition-all duration-300 ease-out transform -rotate-45 -translate-x-1 bg-white opacity-10 group-hover:translate-x-0"></span>
+            <span className="relative z-20 flex items-center text-sm">
+              <svg
+                className="relative w-5 h-5 mr-2 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+              Assess Your Heart
+            </span>
+          </div>
+        </NavLink>
+      </div>
     </div>
   );
-};
-
-export default HomePage;
+}
