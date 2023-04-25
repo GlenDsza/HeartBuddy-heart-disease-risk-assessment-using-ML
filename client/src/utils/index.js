@@ -56,4 +56,17 @@ export const protectedNavLinks = [
   },
 ];
 
+export const mapCategoryOptions = [
+  {
+    value: "healthcare.hospital",
+    id: "healthcare.hospital",
+    label: "Hospitals",
+  },
+  {
+    value: "healthcare.clinic_or_praxis",
+    id: "healthcare.clinic_or_praxis",
+    label: "Cardiologists",
+  },
+];
+
 export const backendUrl = "http://127.0.0.1:8000";

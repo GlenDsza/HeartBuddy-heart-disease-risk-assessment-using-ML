@@ -29,8 +29,8 @@ const LoginPage = ({ setUser }) => {
         sessionStorage.setItem("name", res.data.fullname);
         sessionStorage.setItem("mobile", res.data.mobile);
         setTimeout(() => {
-          navigate("/home");
           setUser(true);
+          navigate("/home");
         }, 1000);
       } else {
         toast.error("Invalid Credentials!");

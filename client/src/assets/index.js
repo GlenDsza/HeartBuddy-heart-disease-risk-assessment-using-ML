@@ -9,6 +9,8 @@ import close from "./close.svg";
 import arrowUp from "./arrow-up.svg";
 import profile from "./profile.svg";
 import search from "./search.svg";
+import locate from "./locate.svg";
+import extend from "./extend.svg";
 
 export {
   healthcare,
@@ -22,4 +24,6 @@ export {
   arrowUp,
   profile,
   search,
+  locate,
+  extend,
 };
