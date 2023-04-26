@@ -5,6 +5,7 @@ import "../stylesheets/FormPage.css";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { Waveform } from "@uiball/loaders";
 import {
   setAge,
   setSex,
@@ -24,6 +25,7 @@ import { backendUrl } from "../utils";
 const FormPage = () => {
   const location = useLocation();
   const [isShow, setIsShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const toggleModal = () => {
     return setIsShow(!isShow);
@@ -86,6 +88,7 @@ const FormPage = () => {
     };
 
     try {
+      setLoading(true);
       let res = await axios.post(
         `${backendUrl}/predict?mobile=${sessionStorage.getItem("mobile")}`,
         formData
@@ -95,6 +98,7 @@ const FormPage = () => {
       if (res.data?.SUCCESS) {
         setPercentage(res.data.PERCENTAGE * 100);
         setIsShow(!isShow);
+        setLoading(false);
         toast(
           `Your risk of developing a heart disease is ${
             res.data.PERCENTAGE * 100
@@ -108,6 +112,14 @@ const FormPage = () => {
   };
   return (
     <div id="homePage" className="m-0 p-0 h-[100vh] w-[100vw]">
+      {loading ? (
+        <>
+          <div className="absolute w-screen h-screen bg-gray-900 top-0 left-0 z-[98] opacity-50"></div>
+          <div className="absolute z-[99] top-1/2 left-1/2 ">
+            <Waveform size={40} color="cyan" />
+          </div>
+        </>
+      ) : null}
       <Toaster />
       <div
         className={`font-poppins font-bold cursor-pointer text-[20px] text-gradient ml-1 text-center mt-1 mb-3`}
@@ -266,7 +278,6 @@ const FormPage = () => {
                   { value: 1, label: "1" },
                   { value: 2, label: "2" },
                   { value: 3, label: "3" },
-                  { value: 4, label: "4" },
                 ]}
               />
             </div>

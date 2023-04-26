@@ -16,7 +16,7 @@ const LandingPage = () => {
         </div>
       </div>
       <div className={` ${styles.paddingX} ${styles.flexStart} `}>
-        <div className={`container`}>
+        <div className={`container`} id="features">
           <Card />
         </div>
       </div>

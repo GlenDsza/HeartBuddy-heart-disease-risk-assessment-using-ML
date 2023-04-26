@@ -1,6 +1,6 @@
 from fastapi import  APIRouter, HTTPException
 from src.models.user_model import User,UserLogin
-from src.database.user_db import create_user,check_user,make_user_valid
+from src.database.user_db import create_user,check_user,make_user_valid,update_otp
 import requests
 from decouple import config
 import math, random
@@ -50,12 +50,18 @@ async def login(user : UserLogin):
     return {"mobile":result['mobile'],"fullname":result['fullname']}
 
 
-# @router.post("/getotp")
-# async def login(user : UserLogin):
-#     if user.mobile == "" or user.password == "":
-#         return {"ERROR":"MISSING PARAMETERS"}
-#     result = check_user(user)
-#     return result
+@router.post("/getotp")
+async def get_otp(user : UserLogin):
+    if user.mobile == "" or user.password == "":
+        return {"ERROR":"MISSING PARAMETERS"}
+    result = check_user(user)
+    if "ERROR" in result.keys():
+        return result
+    otp = generateOTP()
+    requests.get(URL,params = {"authorization": API_KEY, "variables_values":otp,"route":"otp","numbers":user.mobile})
+    if update_otp(user.mobile,otp)=="SUCCESS":
+        return {"SUCCESS":"OTP SENT"}
+    return {"ERROR":"SOME ERROR OCCURRED"}
 
 @router.post("/checkotp")
 async def check_otp(user : UserLogin):

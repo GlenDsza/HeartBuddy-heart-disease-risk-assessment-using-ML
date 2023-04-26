@@ -20,7 +20,7 @@ export const publicNavLinks = [
     title: "About",
   },
   {
-    id: "features",
+    id: "#features",
     title: "Features",
   },
   {
@@ -39,8 +39,8 @@ export const protectedNavLinks = [
     title: "Home",
   },
   {
-    id: "recommendations",
-    title: "Recommendations",
+    id: "research",
+    title: "Research",
   },
   {
     id: "map",

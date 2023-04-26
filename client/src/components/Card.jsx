@@ -4,13 +4,14 @@ import 'bootstrap/dist/css/bootstrap.css';
   
 function IndividualIntervalsExample() {
   return (
+ 
     <Carousel variant="dark" >
       <Carousel.Item interval={3000}>
         <img
           className="d-block w-[100%] h-[600px] rounded-3xl"
           src={feature1} 
           alt="First slide"
-        />
+          />
         <Carousel.Caption>
           <p className='text-[28px] font-semibold bg-white rounded'>Find your risk of Developing a Heart Disease</p>
           <p className='text-[18px] font-semibold bg-white rounded'>By Only filling a few details about yourself we will help you find how your heart health is!</p>
@@ -32,7 +33,7 @@ function IndividualIntervalsExample() {
           className="d-block w-[100%] h-[600px] rounded-3xl"
           src={doctors} 
           alt="First slide"
-        />
+          />
         <Carousel.Caption>
           <p className='text-[28px] font-semibold bg-white rounded'>Get the Best Doctors for You</p>
           <p className='text-[18px] font-semibold bg-white rounded'>We Strive to make You Achieve the Highest Quality Care and Support. We Recommend the Best Cardiologists for Your Treatment!</p>

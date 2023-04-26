@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Navbar, PublicRoute, Footer, ProtectedRoute } from "./components";
 import {
   HomePage,
@@ -12,6 +17,7 @@ import styles from "./style";
 import "bootstrap/dist/css/bootstrap.css";
 import { useEffect, useState } from "react";
 import Profile from "./pages/HomePage";
+import Research from "./pages/Research";
 
 const App = () => {
   const [user, setUser] = useState(false);
@@ -84,6 +90,15 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/research"
+            element={
+              <ProtectedRoute>
+                <Research />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Router>
       <Footer />

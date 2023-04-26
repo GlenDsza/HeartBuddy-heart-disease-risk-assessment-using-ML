@@ -35,6 +35,7 @@ def check_user(user: UserLogin,otp=None):
     except Exception as e:
         print(e)
         return {"ERROR":"INVALID CREDENTIALS"}
+    
 def make_user_valid(mobile):
     try:
         document = collection.update_one({"mobile": mobile}, {"$set": {"otp":"EXPIRED","is_verified":True}})
@@ -42,6 +43,44 @@ def make_user_valid(mobile):
             return "SUCCESS"
         else:
             return "INVALID"
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"
+
+def update_otp(mobile,otp):
+    try:
+        document = collection.update_one({"mobile": mobile}, {"$set": {"otp":otp}})
+        if(document.matched_count>0):
+            return "SUCCESS"
+        else:
+            return "INVALID"
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"
+
+def update_history(history, mobile):
+    try:
+        document = collection.update_one({"mobile": mobile}, {"$push": {"history": history}})
+        if(document.matched_count>0):
+            return "SUCCESS"
+        else:
+            return "INVALID"
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"
+
+def get_history(mobile):
+    try:
+        document = collection.find_one({"mobile": mobile})
+        return document['history']
+    except Exception as e:
+        print(e)
+        return "Some Error Occurred"
+
+def get_last_record(mobile):
+    try:
+        document = collection.find_one({"mobile": mobile})
+        return document['history'][-1]
     except Exception as e:
         print(e)
         return "Some Error Occurred"

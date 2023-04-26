@@ -1,3 +1,5 @@
+import maleIcon from "./maleIcon.png";
+import femaleIcon from "./femaleIcon.png";
 import healthcare from "./healthcare.png";
 import stethoscope from "./stethoscope.png";
 import feature1 from "./feature1.png";
@@ -13,6 +15,8 @@ import locate from "./locate.svg";
 import extend from "./extend.svg";
 
 export {
+  maleIcon,
+  femaleIcon,
   healthcare,
   stethoscope,
   feature1,

@@ -55,7 +55,7 @@ export default function Graph() {
     try {
       let res = await axios.post(`${backendUrl}/gethistory`, formData);
       if (res.data) {
-        console.log(res.data);
+        // console.log(res.data);
         // const dates = res.data.RESULT.map((item) => item.dates.substring(8,10) + '/' + item.dates.substring(5,7) + '/' + item.dates.substring(0,4));
         let dates = res.data.RESULT.map((item) => {
           const other = { ...item };
@@ -86,7 +86,7 @@ export default function Graph() {
             trestbps: item.trestbps,
           };
         });
-        console.log(dates);
+        // console.log(dates);
 
         setData(dates);
       } else {

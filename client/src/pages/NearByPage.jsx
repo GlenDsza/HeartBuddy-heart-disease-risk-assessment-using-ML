@@ -3,12 +3,14 @@ import { search, locate, extend } from "../assets";
 import { MapContainer } from "../components";
 import { Button, Form, InputGroup, Accordion } from "react-bootstrap";
 import Select from "react-select";
+import { Waveform } from "@uiball/loaders";
 import axios from "axios";
 import { mapCategoryOptions } from "../utils";
 
 const NearByPage = () => {
   const [query, setQuery] = useState("");
   const queryRef = useRef();
+  const [loading, setLoading] = useState(false);
   const [currentPosition, setCurrentPosition] = useState({
     lat: 19.0785451,
     lng: 72.878176,
@@ -17,6 +19,7 @@ const NearByPage = () => {
   const [queryCategory, setQueryCategory] = useState("healthcare.hospital");
 
   const findNearby = async () => {
+    setLoading(true);
     const res = await axios.get(
       `https://api.geoapify.com/v2/places?categories=${queryCategory}&filter=circle:${
         currentPosition.lng
@@ -25,7 +28,6 @@ const NearByPage = () => {
       }&limit=20&apiKey=${import.meta.env.VITE_GEOAPIFY_API}`
     );
     var nearbyLocations = [];
-    setNearby([]);
     res.data.features.forEach((feature) => {
       nearbyLocations.push({
         name: feature.properties.name,
@@ -35,6 +37,7 @@ const NearByPage = () => {
         distance: feature.properties.distance,
       });
     });
+    setLoading(false);
     setNearby(nearbyLocations);
   };
 
@@ -133,6 +136,15 @@ const NearByPage = () => {
 
   return (
     <div className="container">
+       {
+        loading ? <>
+          <div className="absolute w-screen h-screen bg-gray-900 top-0 left-0 z-[98] opacity-50">
+          </div>
+          <div className='absolute z-[99] top-1/2 left-1/2 '>
+            <Waveform size={40} color="cyan" />
+          </div>
+        </> : null
+      }
       <div className="row">
         <div className=" col-2 mx-auto">
           <Select
